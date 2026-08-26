@@ -1,0 +1,23 @@
+pub fn valid_flags() -> Vec<&'static str> {
+    vec![
+        "-b",
+        "-",
+        "-E",
+        "-n",
+        "-s",
+        "-T",
+        "-v",
+        "-A",
+        "-h",
+        "--help",
+        "--number",
+        "b",
+        "E",
+        "n",
+        "s",
+        "T",
+        "v",
+        "A",
+        "--show-all",
+    ]
+}
