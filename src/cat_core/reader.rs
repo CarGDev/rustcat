@@ -11,7 +11,7 @@ pub fn process_lines(reader: &mut dyn BufRead, config: &CatConfig, line_number: 
             Ok(0) => break,
             Ok(n) => n,
             Err(e) => {
-                eprintln!("rustcat {}", e);
+                eprintln!("rustcat {e}");
                 break;
             }
         };
@@ -52,33 +52,37 @@ pub fn process_lines(reader: &mut dyn BufRead, config: &CatConfig, line_number: 
             if blank {
                 if config.show_char {
                     let trimmed = line.trim_end_matches('\n');
-                    println!("{} | {}$", line_number, trimmed);
+                    println!("{line_number} | {trimmed}$");
                 } else {
-                    println!("{} | {}", line_number, line.trim_end());
+                    let trimmed = line.trim_end();
+                    println!("{line_number} | {trimmed}");
                 }
                 *line_number += 1;
             } else {
                 if config.show_char {
                     let trimmed = line.trim_end_matches('\n');
-                    println!("{}$", trimmed);
+                    println!("{trimmed}$");
                 } else {
-                    println!("{}", line.trim_end());
+                    let trimmed = line.trim_end();
+                    println!("{trimmed}");
                 }
             }
         } else if config.use_numbers {
             if config.show_char {
                 let trimmed = line.trim_end_matches('\n');
-                println!("{} | {}$", line_number, trimmed);
+                println!("{line_number} | {trimmed}$");
             } else {
-                println!("{} | {}", line_number, line.trim_end());
+                let trimmed = line.trim_end();
+                println!("{line_number} | {trimmed}");
             }
             *line_number += 1;
         } else {
             if config.show_char {
                 let trimmed = line.trim_end_matches('\n');
-                println!("{}$", trimmed);
+                println!("{trimmed}$");
             } else {
-                println!("{}", line.trim_end());
+                let trimmed = line.trim_end();
+                println!("{trimmed}");
             }
         }
     }

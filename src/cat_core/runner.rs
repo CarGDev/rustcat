@@ -23,7 +23,7 @@ pub fn exec(config: CatConfig) {
                     process_lines(&mut reader, &config, &mut line_number);
                     println!(" ");
                 }
-                Err(e) => eprintln!("rustcat: {}: {}", file_name, e),
+                Err(e) => eprintln!("rustcat: {file_name}: {e}"),
             }
         }
     }
