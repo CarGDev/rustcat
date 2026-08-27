@@ -23,7 +23,7 @@ pub fn read() -> CatConfig {
         std::process::exit(2);
     }
 
-    for arg in args.iter().skip(1) {
+    for arg in args.into_iter().skip(1) {
         if arg.starts_with('-') {
             let str_len = arg.len();
             if str_len > 2 && !arg.contains("--") {
@@ -78,7 +78,7 @@ pub fn read() -> CatConfig {
                 }
             }
         } else if !config.is_stdin {
-            config.filenames.push(arg.clone());
+            config.filenames.push(arg);
         }
     }
 
