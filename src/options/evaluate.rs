@@ -72,7 +72,7 @@ pub fn read() -> CatConfig {
                     config.use_numbers = false;
                 }
                 "-E" => config.show_char = true,
-                &_ => {
+                _ => {
                     eprintln!("rustcat: invalid flag. Use -h or --help for help. {arg}\n");
                     std::process::exit(2);
                 }
