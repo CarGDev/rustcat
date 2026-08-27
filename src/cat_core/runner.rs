@@ -12,8 +12,8 @@ pub fn exec(config: CatConfig) {
 
     if config.filenames.is_empty() || config.is_stdin {
         let mut line_number = 1;
-        let mut reader = Box::new(BufReader::new(io::stdin()));
-        process_lines(&mut *reader, &config, &mut line_number);
+        let mut reader = BufReader::new(io::stdin());
+        process_lines(&mut reader, &config, &mut line_number);
     } else {
         for file_name in &config.filenames {
             match File::open(file_name) {
