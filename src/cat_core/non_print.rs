@@ -11,7 +11,7 @@ pub fn evaluate(line: &[u8]) -> String {
             128..=255 => {
                 result.push_str("M-");
             }
-            b => result.push(b as char),
+            b => result.push(b.into()),
         }
     }
     result
