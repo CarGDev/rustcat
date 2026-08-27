@@ -7,18 +7,18 @@ pub fn process_lines(reader: &mut dyn BufRead, config: &CatConfig, line_number: 
     let mut blnk_lines = 0;
     loop {
         raw.clear();
-        let bytes = match reader.read_until(b'\n', &mut raw) {
+        match reader.read_until(b'\n', &mut raw) {
             Ok(0) => break,
-            Ok(n) => n,
+            Ok(_) => {},
             Err(e) => {
                 eprintln!("rustcat {e}");
                 break;
             }
         };
         let mut line = if config.show_nonprint {
-            evaluate(&raw[..bytes])
+            evaluate(&raw)
         } else {
-            String::from_utf8_lossy(&raw[..bytes].to_owned()).to_string()
+            String::from_utf8_lossy(&raw.to_owned()).to_string()
         };
 
         if config.show_tabs {
