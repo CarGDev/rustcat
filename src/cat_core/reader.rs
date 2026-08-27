@@ -18,7 +18,7 @@ pub fn process_lines(reader: &mut dyn BufRead, config: &CatConfig, line_number: 
         let mut line = if config.show_nonprint {
             evaluate(&raw)
         } else {
-            String::from_utf8_lossy(&raw.to_owned()).to_string()
+            String::from_utf8_lossy(&raw).to_string()
         };
 
         if config.show_tabs {
