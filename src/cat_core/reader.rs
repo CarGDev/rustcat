@@ -42,14 +42,22 @@ pub fn process_lines(reader: &mut dyn BufRead, config: &CatConfig, line_number: 
         }
 
         if config.use_no_blank_numbers {
-            let mut blank = false;
+            let mut blank = true;
             for ch in line.chars() {
                 if ch != ' ' && ch != '\t' && ch != '\n' {
-                    blank = true;
+                    blank = false;
                     break;
                 }
             }
             if blank {
+                if config.show_char {
+                    let trimmed = line.trim_end_matches('\n');
+                    println!("{trimmed}$");
+                } else {
+                    let trimmed = line.trim_end();
+                    println!("{trimmed}");
+                }
+            } else {
                 if config.show_char {
                     let trimmed = line.trim_end_matches('\n');
                     println!("{line_number} | {trimmed}$");
@@ -58,14 +66,6 @@ pub fn process_lines(reader: &mut dyn BufRead, config: &CatConfig, line_number: 
                     println!("{line_number} | {trimmed}");
                 }
                 *line_number += 1;
-            } else {
-                if config.show_char {
-                    let trimmed = line.trim_end_matches('\n');
-                    println!("{trimmed}$");
-                } else {
-                    let trimmed = line.trim_end();
-                    println!("{trimmed}");
-                }
             }
         } else if config.use_numbers {
             if config.show_char {
