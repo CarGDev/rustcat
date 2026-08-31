@@ -1,5 +1,5 @@
 pub fn evaluate(line: &[u8]) -> String {
-    let mut result = String::new();
+    let mut result = String::with_capacity(line.len());
     for &byte in line {
         match byte {
             b'\n' => result.push('\n'),
