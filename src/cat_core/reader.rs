@@ -24,31 +24,19 @@ pub fn process_lines(reader: &mut dyn BufRead, config: &CatConfig, line_number: 
         if config.show_tabs {
             line = line.replace('\t', "^I");
         }
+
+        let blank = line.chars().all(|ch| ch == ' ' || ch == '\t' || ch == '\n');
         if config.squeezing_blank_lines {
-            let mut blank = true;
-            for ch in line.chars() {
-                if ch != ' ' && ch != '\t' && ch != '\n' {
-                    blank = false;
-                    blnk_lines = 0;
-                    break;
-                }
-            }
             if blank {
                 blnk_lines += 1;
                 if blnk_lines > 1 {
                     continue;
                 }
+            } else {
+                blnk_lines = 0;
             }
         }
-
         if config.use_no_blank_numbers {
-            let mut blank = true;
-            for ch in line.chars() {
-                if ch != ' ' && ch != '\t' && ch != '\n' {
-                    blank = false;
-                    break;
-                }
-            }
             if blank {
                 if config.show_char {
                     let trimmed = line.trim_end_matches('\n');
