@@ -4,7 +4,6 @@ use crate::config::CatConfig;
 pub fn read() -> CatConfig {
     let args: Vec<String> = std::env::args().collect();
     let mut config = CatConfig::default();
-    let len = args.len();
 
     let flags = valid_flags();
     let mut has_valid_flag = std::env::args().any(|arg| flags.contains(&arg.as_str()));
@@ -24,12 +23,11 @@ pub fn read() -> CatConfig {
         std::process::exit(2);
     }
 
-    for i in 1..len {
-        let arg = &args[i];
+    for arg in args.into_iter().skip(1) {
         if arg.starts_with('-') {
-            let str_len = args[i].len();
+            let str_len = arg.len();
             if str_len > 2 && !arg.contains("--") {
-                for ch in args[i].chars() {
+                for ch in arg.chars() {
                     if ch == '-' {
                         continue;
                     }
@@ -57,7 +55,7 @@ pub fn read() -> CatConfig {
                 }
                 continue;
             }
-            match args[i].as_str() {
+            match arg.as_str() {
                 "-" => config.is_stdin = true,
                 "-h" | "--help" => config.show_help = true,
                 "-v" => config.show_nonprint = true,
@@ -74,16 +72,13 @@ pub fn read() -> CatConfig {
                     config.use_numbers = false;
                 }
                 "-E" => config.show_char = true,
-                &_ => {
-                    eprintln!(
-                        "rustcat: invalid flag. Use -h or --help for help. {}\n",
-                        args[i].as_str()
-                    );
+                _ => {
+                    eprintln!("rustcat: invalid flag. Use -h or --help for help. {arg}\n");
                     std::process::exit(2);
                 }
             }
         } else if !config.is_stdin {
-            config.filenames.push(args[i].clone());
+            config.filenames.push(arg);
         }
     }
 
